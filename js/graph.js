@@ -3,11 +3,15 @@ function graph() {
     var leftOffset = 50;
     var graphHeight = 300;
     var graphWidth = 300;
-    var pointSize = 3;
+    var pointSize = 4;
     var pointsX = [];
     var pointsY = [];
 
-    var context = $('#graph').get(0).getContext('2d');
+    var referencePointsX = [];
+    var referencePointsY = [];
+
+    var canvas = $('#graph');
+    var context = canvas.get(0).getContext('2d');
 
     var lineStats = {
         m: 0,
@@ -33,6 +37,23 @@ function graph() {
         //Store points
         this.pointsX = pointsX;
         this.pointsY = pointsY;
+    };
+
+    this.drawReferencePoints = function(pointsX, pointsY) {
+        if(pointsX.length != 2 || pointsX.length != pointsY.length) {
+            return;
+        }
+        referencePointsX = pointsX;
+        referencePointsY = pointsY;
+        //Draw first point
+        context.beginPath();
+        context.arc(pointsX[0] + leftOffset, graphHeight - pointsY[0], pointSize, 0, 2 * Math.PI, false);
+        context.fillStyle = 'blue';
+        context.fill();
+        context.arc(pointsX[1] + leftOffset, graphHeight - pointsY[1], pointSize, 0, 2 * Math.PI, false);
+        context.fillStyle = 'blue';
+        context.fill();
+       // context.fillOval(pointsX[1] + leftOffset - pointSize, graphHeight - pointsY[1] - pointSize, pointSize*2, pointSize*2);
     };
 
     this.drawLine = function(pointsX,pointsY, extrapolate) {
@@ -67,6 +88,7 @@ function graph() {
 
     this.getRSS = function() {
         var RSS = 0;
+        context.strokeStyle = '#FF0000';
         for (var index = 0 ; index < this.pointsX.length ; index++ ) {
             predictedY = lineStats.m * this.pointsX[index] + lineStats.b;
             squaredResidual = Math.pow(predictedY - this.pointsY[index], 2);
@@ -74,16 +96,35 @@ function graph() {
             console.log('Actual Y: ' + this.pointsY[index]);
             console.log('Sq Res: ' + squaredResidual);
             RSS += squaredResidual;
+
+            context.beginPath();
+            context.moveTo(this.pointsX[index] + leftOffset + 2, graphHeight - this.pointsY[index]);
+            context.lineTo(this.pointsX[index] + leftOffset + 2, graphHeight - predictedY);
+            context.strokeStyle = '#FF0000';
+            context.stroke();
+            context.font = '9pt Calibri';
+            context.fillText(squaredResidual, this.pointsX[index] + leftOffset + 5, graphHeight - (this.pointsY[index] + (predictedY - this.pointsY[index])/2) + 5)
         }
         return RSS;
     };
+
+    //Add mouse click info
+    canvas.click(function(e) {
+        console.log(e.pageY);
+        //calculated distance from
+    });
 }
 
 var g = new graph();
-var pointsX = [100,200,100,50];
+var pointsX = [100,200,250,50];
 var pointsY = [100,50,200,150];
 g.drawAxes();
 g.drawPoints(pointsX, pointsY);
 g.drawLine([20,100],[30,50], true);
-
+g.drawReferencePoints([20,100],[30,50]);
 console.log(g.getRSS());
+
+
+
+
+
