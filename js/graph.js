@@ -17,10 +17,13 @@ function graph() {
         m: 0,
         b: 0
     };
+    var RSS = 0;
 
     var isMouseDown = false;
     var that = this;
     var closestReferencePoint = 0;
+
+
 
     this.update= function() {
 
@@ -30,7 +33,7 @@ function graph() {
         this.drawPoints(this.pointsX, this.pointsY);
         this.drawLine(referencePointsX,referencePointsY, true);
         this.drawReferencePoints(referencePointsX,referencePointsY);
-        this.getRSS()
+        RSS = this.calculateRSS()
     };
 
     this.drawAxes = function() {
@@ -111,7 +114,7 @@ function graph() {
     };
 
 
-    this.getRSS = function() {
+    this.calculateRSS = function() {
         var RSS = 0;
         context.strokeStyle = '#FF0000';
         for (var index = 0 ; index < this.pointsX.length ; index++ ) {
@@ -135,6 +138,9 @@ function graph() {
         return RSS;
     };
 
+    this.getRSS = function() {
+        return RSS;
+    };
     this.getClosestReferencePoint = function(pageClickedX, pageClickedY, referencePointsX, referencePointsY) {
         var distances = [0,0];
         var shortestDistance = 2000000;
@@ -162,23 +168,25 @@ function graph() {
         return shortestDistanceIndex;
 
     };
-    //Add mouse click info
-    canvas.mousedown(function(e) {
+
+    this.mousedown = function(e) {
         console.log('keydown');
         isMouseDown = true;
         //calculated distance from
 
         closestReferencePoint = that.getClosestReferencePoint(e.pageX, e.pageY, referencePointsX, referencePointsY);
         console.log('Closest Ref Index: ' + closestReferencePoint);
-    })
-    .mouseup(function(e) {
+    };
+
+    this.mouseup = function(e) {
         console.log('keyup');
         $('body').css('cursor','default');
         closestReferencePoint = -1;
         isMouseDown = false;
         that.update();
-    })
-    .mousemove(function(e) {
+    };
+
+    this.mousemove = function(e) {
         if(isMouseDown){
             $('body').css('cursor','none');
             //  console.log(e.pageX + ", " + e.pageY);
@@ -187,18 +195,11 @@ function graph() {
             that.update();
 
         }
-    });
+    };
+    this.getCanvas = function() {
+        return canvas;
+    }
 }
-
-var g = new graph();
-var pointsX = [100, 200,250,50, 60, 120];
-var pointsY = [100, 170, 200,80,70, 120];
-g.drawAxes();
-g.drawPoints(pointsX, pointsY);
-g.drawLine([20,100],[30,50], true);
-g.drawReferencePoints([20,100],[30,50]);
-//console.log(g.getRSS());
-
 
 
 
