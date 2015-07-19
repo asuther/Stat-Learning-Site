@@ -17,13 +17,16 @@ function graph() {
         m: 0,
         b: 0
     };
-    var RSS = 0;
+    var RSS = 99999;
 
     var isMouseDown = false;
     var that = this;
     var closestReferencePoint = 0;
 
 
+    this.init = function() {
+        this.drawAxes();
+    };
 
     this.update= function() {
 
@@ -43,6 +46,14 @@ function graph() {
         context.lineTo(leftOffset, graphHeight);
         context.lineTo(graphWidth+leftOffset, graphHeight);
         context.stroke();
+
+        //Drawing Y Axis Label
+        context.save();
+        context.fillStyle = 'black';
+        context.font = '14pt Calibri';
+        context.rotate(Math.PI*2/(1.334));
+        context.fillText('Value 2',-200,38);
+        context.restore();
     };
 
     this.drawPoints = function(pointsX, pointsY) {
@@ -134,12 +145,11 @@ function graph() {
             context.font = '9pt Calibri';
             context.fillText(Math.round(squaredResidual), this.pointsX[index] + leftOffset + 5, graphHeight - (this.pointsY[index] + (predictedY - this.pointsY[index])/2) + 5)
         }
-        $('#totalRSS').text('Total RSS: ' + Math.round(RSS));
         return RSS;
     };
 
     this.getRSS = function() {
-        return RSS;
+        return this.calculateRSS();
     };
     this.getClosestReferencePoint = function(pageClickedX, pageClickedY, referencePointsX, referencePointsY) {
         var distances = [0,0];
@@ -159,7 +169,6 @@ function graph() {
             // context.stroke();
 
             currentDistance = Math.sqrt(  Math.pow(clickedX - referencePointsX[index] , 2) + Math.pow(clickedY - referencePointsY[index], 2) );
-            console.log(currentDistance);
             if(currentDistance < shortestDistance) {
                 shortestDistance = currentDistance;
                 shortestDistanceIndex = index;
@@ -170,16 +179,16 @@ function graph() {
     };
 
     this.mousedown = function(e) {
-        console.log('keydown');
+        //console.log('keydown');
         isMouseDown = true;
         //calculated distance from
 
         closestReferencePoint = that.getClosestReferencePoint(e.pageX, e.pageY, referencePointsX, referencePointsY);
-        console.log('Closest Ref Index: ' + closestReferencePoint);
+        //console.log('Closest Ref Index: ' + closestReferencePoint);
     };
 
     this.mouseup = function(e) {
-        console.log('keyup');
+        //console.log('keyup');
         $('body').css('cursor','default');
         closestReferencePoint = -1;
         isMouseDown = false;
@@ -199,6 +208,8 @@ function graph() {
     this.getCanvas = function() {
         return canvas;
     }
+
+    this.init();
 }
 
 

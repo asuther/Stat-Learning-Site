@@ -1,8 +1,8 @@
 function barGraph() {
 
-    var leftOffset = 0;
+    var leftOffset = 50;
     var graphHeight = 300;
-    var graphWidth = 300;
+    var graphWidth = 200;
     var canvas = $('#barGraph');
     var context = canvas.get(0).getContext('2d');
 
@@ -18,6 +18,14 @@ function barGraph() {
         context.lineTo(leftOffset, graphHeight);
         context.lineTo(graphWidth+leftOffset, graphHeight);
         context.stroke();
+
+        //Drawing Y Axis Label
+        context.save();
+        context.fillStyle = 'black';
+        context.font = '14pt Calibri';
+        context.rotate(Math.PI*2/(1.334));
+        context.fillText('Total RSS',-200,30);
+        context.restore();
     };
 
     this.drawBarGraph = function(value) {
