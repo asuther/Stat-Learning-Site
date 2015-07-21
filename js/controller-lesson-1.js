@@ -43,6 +43,8 @@ graphCanvas.mousedown(function(e) {
         updateRSS();
 
         barGraph.drawBarGraph(currentRSS);
+    } else {
+        g.mousemoveNoClick(e);
     }
 
 });

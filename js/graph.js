@@ -3,7 +3,7 @@ function graph() {
     var leftOffset = 50;
     var graphHeight = 300;
     var graphWidth = 300;
-    var pointSize = 4;
+    var pointSize = pointSizeDefault = 4;
     var pointsX = [];
     var pointsY = [];
 
@@ -22,6 +22,7 @@ function graph() {
     var isMouseDown = false;
     var that = this;
     var closestReferencePoint = 0;
+    var closestReferenceInfo = {};
 
 
     this.init = function() {
@@ -57,6 +58,7 @@ function graph() {
     };
 
     this.drawPoints = function(pointsX, pointsY) {
+        pointSize = pointSizeDefault;
         //If the arrays are not the same length, exit
         if(pointsX.length != pointsY.length) {
             return;
@@ -81,8 +83,12 @@ function graph() {
         for (var referenceIndex = 0; referenceIndex < pointsX.length ; referenceIndex++ ) {
             context.beginPath();
             context.fillStyle = 'blue';
+            pointSize = pointSizeDefault;
             if(referenceIndex == closestReferencePoint && isMouseDown){
                 context.fillStyle = 'red';
+            } else if(closestReferenceInfo.closestRefIndex == referenceIndex && closestReferenceInfo.closestRefDistance < 15) {
+                context.fillStyle = 'orange';
+                pointSize = 6;
             }
 
 
@@ -174,8 +180,7 @@ function graph() {
                 shortestDistanceIndex = index;
             }
         }
-        return shortestDistanceIndex;
-
+        return {'closestRefIndex':shortestDistanceIndex, 'closestRefDistance': shortestDistance};
     };
 
     this.mousedown = function(e) {
@@ -183,7 +188,7 @@ function graph() {
         isMouseDown = true;
         //calculated distance from
 
-        closestReferencePoint = that.getClosestReferencePoint(e.pageX, e.pageY, referencePointsX, referencePointsY);
+        closestReferencePoint = that.getClosestReferencePoint(e.pageX, e.pageY, referencePointsX, referencePointsY).closestRefIndex;
         //console.log('Closest Ref Index: ' + closestReferencePoint);
     };
 
@@ -202,8 +207,12 @@ function graph() {
             referencePointsX[closestReferencePoint] = e.pageX - leftOffset;
             referencePointsY[closestReferencePoint] = graphHeight - e.pageY;
             that.update();
-
         }
+
+    };
+    this.mousemoveNoClick = function(e) {
+        closestReferenceInfo = that.getClosestReferencePoint(e.pageX, e.pageY, referencePointsX, referencePointsY);
+        that.update();
     };
     this.getCanvas = function() {
         return canvas;

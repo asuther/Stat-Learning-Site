@@ -18,6 +18,7 @@ graphCanvas.mousedown(function(e) {
     g.mouseup(e);
 })
 .mousemove(function(e) {
+    console.log('111');
     g.mousemove(e);
     currentRSS = g.getRSS();
     barGraph.drawBarGraph(currentRSS);
