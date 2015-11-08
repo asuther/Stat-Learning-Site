@@ -37,7 +37,12 @@ function graph() {
         this.drawPoints(this.pointsX, this.pointsY);
         this.drawLine(referencePointsX,referencePointsY, true);
         this.drawReferencePoints(referencePointsX,referencePointsY);
-        RSS = this.calculateRSS()
+
+        RSS = this.calculateRSS();
+        if($('#showRSS').is(':checked')) {
+            this.drawRSS();
+        }
+
     };
 
     this.drawAxes = function() {
@@ -130,6 +135,21 @@ function graph() {
         context.stroke();
     };
 
+    this.drawRSS = function() {
+        for (var index = 0 ; index < this.pointsX.length ; index++ ) {
+            predictedY = lineStats.m * this.pointsX[index] + lineStats.b;
+            squaredResidual = Math.pow(predictedY - this.pointsY[index], 2);
+
+            context.beginPath();
+            context.moveTo(this.pointsX[index] + leftOffset + 2, graphHeight - this.pointsY[index]);
+            context.lineTo(this.pointsX[index] + leftOffset + 2, graphHeight - predictedY);
+            context.strokeStyle = '#FF0000';
+            context.stroke();
+            context.fillStyle = 'black';
+            context.font = '9pt Calibri';
+            context.fillText(Math.round(squaredResidual), this.pointsX[index] + leftOffset + 5, graphHeight - (this.pointsY[index] + (predictedY - this.pointsY[index])/2) + 5)
+        }
+    };
 
     this.calculateRSS = function() {
         var RSS = 0;
@@ -141,16 +161,7 @@ function graph() {
             //console.log('Actual Y: ' + this.pointsY[index]);
             //console.log('Sq Res: ' + squaredResidual);
             RSS += squaredResidual;
-
-            context.beginPath();
-            context.moveTo(this.pointsX[index] + leftOffset + 2, graphHeight - this.pointsY[index]);
-            context.lineTo(this.pointsX[index] + leftOffset + 2, graphHeight - predictedY);
-            context.strokeStyle = '#FF0000';
-            context.stroke();
-            context.fillStyle = 'black';
-            context.font = '9pt Calibri';
-            context.fillText(Math.round(squaredResidual), this.pointsX[index] + leftOffset + 5, graphHeight - (this.pointsY[index] + (predictedY - this.pointsY[index])/2) + 5)
-        }
+         }
         return RSS;
     };
 
@@ -216,9 +227,15 @@ function graph() {
     };
     this.getCanvas = function() {
         return canvas;
-    }
+    };
+
+    this.getReferencePoints = function() {
+        return [ [referencePointsX[0], referencePointsY[0]], [referencePointsX[1], referencePointsY[1]] ];
+    };
 
     this.init();
+
+
 }
 
 
