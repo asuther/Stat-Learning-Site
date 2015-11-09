@@ -11,11 +11,11 @@ g.drawReferencePoints([20,100],[30,50]);
 function calculateBeta() {
   referencePoints = g.getReferencePoints();
     slope = ( referencePoints[1][1] - referencePoints[0][1] ) / ( referencePoints[1][0] - referencePoints[0][0] );
-    $('#betaValue').text(slope);
+    $('#betaValue').text(slope.toFixed(2));
 };
 var updateRSS = function() {
     currentRSS = g.getRSS();
-    $('#totalRSS').text('Total RSS: ' + Math.round(currentRSS));
+    $('#totalRSS').text(Math.round(currentRSS));
 
 };
 
