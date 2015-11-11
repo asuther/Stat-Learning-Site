@@ -15,13 +15,16 @@ barGraph.drawBarGraph(30);
 var graphCanvas = g.getCanvas();
 
 var updateRSS = function() {
-    $('#totalRSS').text('Total RSS: ' + Math.round(currentRSS));
+    $('#totalRSS').text('Current RSS: ' + Math.round(currentRSS));
 
     if(currentRSS < minRSS) {
         minRSS = currentRSS;
         $('#minRSS').text('Min RSS: ' + Math.round(minRSS));
     }
 };
+$('#showRSS').change(function(e) {
+    g.update();
+});
 
 var currentRSS = linearRegressionModel.getRSS();
 var minRSS = currentRSS;

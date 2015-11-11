@@ -2,10 +2,14 @@
     width: 50%;
 }
 #container {
-    margin: 0 20%;
-    background-color: #EFEFEF;
+    margin: 0 10%;
+    background-color: white;
 }
 
 #header h1 {
     text-align: center;
+}
+body {
+    background-color: #EFEFEF;
+
 }

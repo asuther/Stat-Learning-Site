@@ -58,7 +58,7 @@ function graph(canvasID) {
         context.fillStyle = 'black';
         context.font = '14pt Calibri';
         context.rotate(Math.PI*2/(1.334));
-        context.fillText('Value 2',-200,38);
+        context.fillText('Target Variable',-200,38);
         context.restore();
     };
     this.setPoints = function(pointsX, pointsY) {
@@ -111,6 +111,7 @@ function graph(canvasID) {
 
     this.mousemove = function(e) {
         that.update();
+
         dependencies.forEach(function(dependency) {
             dependency.mousemove(e);
             dependency.update(context);

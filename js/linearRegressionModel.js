@@ -169,7 +169,7 @@ function LinearRegressionModel() {
 
         isMouseDown = true;
         //calculated distance from
-        closestReferencePoint = that.getClosestReferencePoint(e.pageX, e.pageY, that.referencePointsX, that.referencePointsY).closestRefIndex;
+        closestReferencePoint = that.getClosestReferencePoint(e.offsetX, e.offsetY, that.referencePointsX, that.referencePointsY).closestRefIndex;
         //console.log('Closest Ref Index: ' + closestReferencePoint);
     };
 
@@ -185,16 +185,16 @@ function LinearRegressionModel() {
         if(isMouseDown){
 
             $('body').css('cursor','none');
-            //  console.log(e.pageX + ", " + e.pageY);
-            that.referencePointsX[closestReferencePoint] = (e.pageX - this.graphParams.leftOffset);
-            that.referencePointsY[closestReferencePoint] = this.graphParams.graphHeight - e.pageY;
+            //  console.log(e.offsetX + ", " + e.offsetY);
+            that.referencePointsX[closestReferencePoint] = (e.offsetX - this.graphParams.leftOffset);
+            that.referencePointsY[closestReferencePoint] = this.graphParams.graphHeight - e.offsetY;
 
             //console.log('Reference X: ' + (referencePointsX[closestReferencePoint]));
         }
 
     };
     this.mousemoveNoClick = function(e) {
-        closestReferenceInfo = that.getClosestReferencePoint(e.pageX, e.pageY, referencePointsX, referencePointsY);
+        closestReferenceInfo = that.getClosestReferencePoint(e.offsetX, e.offsetY, referencePointsX, referencePointsY);
     };
 
     this.getReferencePoints = function() {

@@ -24,7 +24,7 @@ function barGraph() {
         context.fillStyle = 'black';
         context.font = '14pt Calibri';
         context.rotate(Math.PI*2/(1.334));
-        context.fillText('Total RSS',-200,30);
+        context.fillText('Current RSS',-200,30);
         context.restore();
     };
 
