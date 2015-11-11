@@ -19,6 +19,8 @@ function LinearRegressionModel() {
     var pointsX;
     var pointsY;
 
+    var observers = [];
+
     this.init = function() {
         this.setReferencePoints([20,100],[30,50]);
     };
@@ -35,9 +37,22 @@ function LinearRegressionModel() {
 
     };
 
+    this.addObserver = function(newObserver) {
+        observers.push(newObserver);
+    };
+
     /*********************************************************************
-                    Drawing / Update Methods
-                    */
+
+                    ###        ###            #        #           #
+                    #   #      #   #         # #       #           #
+                    #    #     #    #       #   #       #         #
+                    #    #     #  #        #######       #   #   #
+                    #   #      #   #      #       #       # # # #
+                    ###        #    #    #         #       #   #
+
+    *********************************************************************/
+
+
     this.update = function(context) {
         this.drawLine(context, this.referencePointsX, this.referencePointsY, true);
         this.drawReferencePoints(context, this.referencePointsX, this.referencePointsY);
@@ -47,6 +62,8 @@ function LinearRegressionModel() {
         if($('#showRSS').is(':checked')) {
             this.drawRSS(context);
         }
+
+
     };
 
     this.drawReferencePoints = function(context, pointsX, pointsY) {
@@ -189,6 +206,10 @@ function LinearRegressionModel() {
             that.referencePointsX[closestReferencePoint] = (e.offsetX - this.graphParams.leftOffset);
             that.referencePointsY[closestReferencePoint] = this.graphParams.graphHeight - e.offsetY;
 
+            observers.forEach(function(observer) {
+                console.log(RSS)
+                observer.addPoint(lineStats.m*100, RSS/500);
+            });
             //console.log('Reference X: ' + (referencePointsX[closestReferencePoint]));
         }
 

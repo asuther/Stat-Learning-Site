@@ -1,4 +1,6 @@
-function graph(canvasID) {
+function graph(canvasID, ctrl) {
+    var controller = ctrl || {update: function() {}};
+
     var graphParams = {
         leftOffset: 50,
         graphHeight: 300,
@@ -19,7 +21,8 @@ function graph(canvasID) {
     var that = this;
 
 
-    var dependencies = [];
+    var observers = [];
+
 
 
     this.init = function() {
@@ -27,22 +30,24 @@ function graph(canvasID) {
     };
 
     this.update = function() {
+        console.log(pointsY);
 
         context.fillStyle = 'white';
         context.fillRect(0,0,500,300);
         this.drawAxes();
-        this.drawPoints(this.pointsX, this.pointsY);
+        this.drawPoints(pointsX, pointsY);
 
-        for(var depIndex = 0; depIndex < dependencies.length; depIndex++) {
-            dependencies[depIndex].update(context);
+
+        for(var observerIndex = 0; observerIndex < observers.length; observerIndex++) {
+            observers[observerIndex].update(context);
         }
 
 
     };
 
-    this.addDependency = function(dependencyObject) {
-        dependencyObject.setGraphParams(graphParams);
-        dependencies.push(dependencyObject);
+    this.addObserver = function(observerObject) {
+        observerObject.setGraphParams(graphParams);
+        observers.push(observerObject);
     };
 
     this.drawAxes = function() {
@@ -61,6 +66,13 @@ function graph(canvasID) {
         context.fillText('Target Variable',-200,38);
         context.restore();
     };
+
+    this.addPoint = function(pointX, pointY) {
+        pointsX.push(pointX);
+        pointsY.push(pointY);
+
+        this.update();
+    };
     this.setPoints = function(pointsX, pointsY) {
         if(pointsX.length != pointsY.length) {
             return;
@@ -69,8 +81,8 @@ function graph(canvasID) {
         this.pointsX = pointsX;
         this.pointsY = pointsY;
 
-        //Broadcast the points to all dependencies
-        dependencies.forEach(function(dependency) {
+        //Broadcast the points to all observers
+        observers.forEach(function(dependency) {
             dependency.setPoints(pointsX, pointsY);
         });
     };
@@ -92,7 +104,7 @@ function graph(canvasID) {
         //console.log('keydown');
         isMouseDown = true;
         //calculated distance from
-        dependencies.forEach(function(dependency) {
+        observers.forEach(function(dependency) {
             dependency.mousedown(e);
             dependency.update(context);
         });
@@ -103,7 +115,7 @@ function graph(canvasID) {
         isMouseDown = false;
         that.update();
 
-        dependencies.forEach(function(dependency) {
+        observers.forEach(function(dependency) {
             dependency.mouseup(e);
             dependency.update(context);
         });
@@ -112,7 +124,7 @@ function graph(canvasID) {
     this.mousemove = function(e) {
         that.update();
 
-        dependencies.forEach(function(dependency) {
+        observers.forEach(function(dependency) {
             dependency.mousemove(e);
             dependency.update(context);
         });
@@ -120,7 +132,7 @@ function graph(canvasID) {
     this.mousemoveNoClick = function(e) {
 
         that.update();
-        dependencies.forEach(function(dependency) {
+        observers.forEach(function(dependency) {
             dependency.mousemoveNoClick(e);
             dependency.update(context);
         });

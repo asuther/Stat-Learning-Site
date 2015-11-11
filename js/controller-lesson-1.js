@@ -1,18 +1,22 @@
-var g = new graph('linearRegressionGraph');
+var scatterPlot = new graph('linearRegressionGraph');
 var linearRegressionModel = new LinearRegressionModel();
+//var costFunctionController = new costFunctionController();
+var costFunctionGraph = new graph('costFunctionGraph');
 
-g.addDependency(linearRegressionModel);
+scatterPlot.addObserver(linearRegressionModel);
+linearRegressionModel.addObserver(costFunctionGraph);
+
 var pointsX = [100, 200,250,50, 60, 120];
 var pointsY = [100, 170, 200,80,70, 120];
 
-g.setPoints(pointsX, pointsY);
-g.update();
+scatterPlot.setPoints(pointsX, pointsY);
+scatterPlot.update();
 
 var barGraph = new barGraph();
 barGraph.drawBarGraph(30);
 
 //Add mouse click info
-var graphCanvas = g.getCanvas();
+var graphCanvas = scatterPlot.getCanvas();
 
 var updateRSS = function() {
     $('#totalRSS').text('Current RSS: ' + Math.round(currentRSS));
@@ -23,7 +27,7 @@ var updateRSS = function() {
     }
 };
 $('#showRSS').change(function(e) {
-    g.update();
+    scatterPlot.update();
 });
 
 var currentRSS = linearRegressionModel.getRSS();
@@ -33,22 +37,22 @@ updateRSS();
 var mouseDown = false;
 
 graphCanvas.mousedown(function(e) {
-    g.mousedown(e);
+    scatterPlot.mousedown(e);
     mouseDown = true;
 })
 .mouseup(function(e) {
-    g.mouseup(e);
+    scatterPlot.mouseup(e);
     mouseDown = false;
 })
 .mousemove(function(e) {
     if(mouseDown) {
-        g.mousemove(e);
+        scatterPlot.mousemove(e);
         currentRSS = linearRegressionModel.getRSS();
         updateRSS();
 
         barGraph.drawBarGraph(currentRSS);
     } else {
-        g.mousemoveNoClick(e);
+        scatterPlot.mousemoveNoClick(e);
     }
 
 });
