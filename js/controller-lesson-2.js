@@ -25,7 +25,10 @@ var updateRSS = function() {
 
 };
 
-
+//When the showRSS checkbox is checked, update the graph
+$('#showRSS').change(function(e) {
+    g.update();
+});
 
 //Add mouse click info
 var graphCanvas = g.getCanvas();
