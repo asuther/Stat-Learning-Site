@@ -32,10 +32,12 @@ function LinearRegressionModel() {
         }
         this.referencePointsX = referencePointsX;
         this.referencePointsY = referencePointsY;
-        console.log("reference X");
-        console.log(this.referencePointsX);
-        //Draw first point
+
     };
+
+    /*********************************************************************
+                    Drawing / Update Methods
+                    */
     this.update = function(context) {
         this.drawLine(context, this.referencePointsX, this.referencePointsY, true);
         this.drawReferencePoints(context, this.referencePointsX, this.referencePointsY);
@@ -71,7 +73,7 @@ function LinearRegressionModel() {
     };
 
     this.drawLine = function(context, refPointsX, refPointsY, extrapolate) {
-        console.log(refPointsX);
+
         var pointsArrayLength = refPointsX.length;
         extrapolate = extrapolate || false;
         context.strokeStyle = 'black';
@@ -130,6 +132,19 @@ function LinearRegressionModel() {
     this.getRSS = function() {
         return this.calculateRSS();
     };
+
+
+    //Custom Functions for lesson
+    this.calculateBeta = function() {
+        //console.log(this.referencePointsX[1]);
+        return ( this.referencePointsY[1] - this.referencePointsY[0] ) / ( this.referencePointsX[1] - this.referencePointsX[0] );
+
+    };
+    this.calculateSEBeta = function() {
+        return Math.sqrt(currentRSS / (13 * beta)).toFixed(1);
+
+    };
+
     this.getClosestReferencePoint = function(pageClickedX, pageClickedY, referencePointsX, referencePointsY) {
 
         var distances = [0,0];
@@ -151,7 +166,7 @@ function LinearRegressionModel() {
     };
 
     this.mousedown = function(e) {
-        console.log('keydown');
+
         isMouseDown = true;
         //calculated distance from
         closestReferencePoint = that.getClosestReferencePoint(e.pageX, e.pageY, that.referencePointsX, that.referencePointsY).closestRefIndex;

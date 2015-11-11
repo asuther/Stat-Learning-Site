@@ -7,8 +7,6 @@ var pointsY = [100, 170, 200,80,70, 120];
 
 g.setPoints(pointsX, pointsY);
 g.update();
-//linearRegressionModel.drawLine([20,100],[30,50], true);
-//linearRegressionModel.drawReferencePoints();
 
 var barGraph = new barGraph();
 barGraph.drawBarGraph(30);
