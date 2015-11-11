@@ -1,0 +1,54 @@
+<html>
+<head>
+    <title>Interactive Statistics Learning</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <style type="text/css">
+        body {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id='graph' width='500' height='300'></canvas>
+    <canvas id="barGraph" width='500' height='300'></canvas>
+    <h1 id='totalRSS'>0</h1>
+    <h2 id='minRSS'></h2>
+    <div class="descriptionText">
+        <p>
+            Linear regression is one of the most simple machine learning methods. The most common way
+            a linear regression model is fit to data is by minimizing the residual sum of squares (RSS).
+            This is also called the sum of squared error (SSE)...and sometimes the sum of squared residuals (SSR).
+        </p>
+        <p>
+            The residual sum of squares is a "cost function," which is calculated as follows:
+
+            <table style="margin-top:0.9em; margin-bottom:0.9em; text-align: center;" align="center" cellpadding="0" cellspacing="0" >
+                <tr>
+                    <td rowspan="2" nowrap="nowrap" align="right">
+                        <i>RSS</i> = <span style="font-size: 180%;">&radic;</span>
+                    </td>
+                    <td style="border-top:solid 1px black;" nowrap="nowrap">
+                        &nbsp;&sum;(y<sub>i</sub> - y&#770;)<sup>2</sup></span>
+                    </td>
+                </tr>
+            </table>
+        </p>
+
+        <p>
+            where y<sub>i</sub> is the y value for the i<sup>th</sup> sample and y&#770; is the linear regression model's prediction of the same sample.
+            Therefore, the RSS's magnitude is a function of how difference each sample's predicted value is from the actual value. If the linear regression
+            model perfectly overlaps with all samples, then the RSS would be 0.
+        </p>
+
+        <p>
+            Play with the interactive plot below to see how the RSS changes depending on the linear fit. Try to minimize the RSS. Submit your result when you think you're close to the minimum value.
+        </p>
+    </div>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <script type="text/javascript" src="js/graph.js"></script>
+    <script type="text/javascript" src="js/barGraph.js"></script>
+    <script type="text/javascript" src='js/controller-lesson-1.js'></script>
+</body>
+</html>
