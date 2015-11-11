@@ -1,11 +1,12 @@
-var g = new graph();
+var g = new graph('linearRegressionGraph');
+var linearRegressionModel = new LinearRegressionModel();
 
+g.addDependency(linearRegressionModel);
 var pointsX = [100, 200,250,50, 60, 120];
 var pointsY = [100, 170, 200,80,70, 120];
 
-g.drawPoints(pointsX, pointsY);
-g.drawLine([20,100],[30,50], true);
-g.drawReferencePoints([20,100],[30,50]);
+g.setPoints(pointsX, pointsY);
+g.update();
 
 var barGraph = new barGraph();
 barGraph.drawBarGraph(30);
@@ -22,7 +23,7 @@ var updateRSS = function() {
     }
 };
 
-var currentRSS = g.getRSS();
+var currentRSS = linearRegressionModel.getRSS();
 var minRSS = currentRSS;
 updateRSS();
 
@@ -39,7 +40,7 @@ graphCanvas.mousedown(function(e) {
 .mousemove(function(e) {
     if(mouseDown) {
         g.mousemove(e);
-        currentRSS = g.getRSS();
+        currentRSS = linearRegressionModel.getRSS();
         updateRSS();
 
         barGraph.drawBarGraph(currentRSS);
