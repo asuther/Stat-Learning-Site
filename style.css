@@ -8,8 +8,11 @@
 
 #header h1 {
     text-align: center;
+    padding-top: 50px;
 }
 body {
     background-color: #EFEFEF;
-
+}
+#content {
+    padding: 80px;
 }
