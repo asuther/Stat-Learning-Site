@@ -1,0 +1,38 @@
+<html>
+<head>
+    <title>Interactive Statistics Learning</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <style type="text/css">
+        body {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id='container'>
+        <div id='header'>
+            <h1>Linear Regression Cost Function</h1>
+        </div>
+        <div id='content'>
+            <p>
+                As we learned in the previous lesson, the residual sum of squares is a good metric to see how close the linear regression fit is to the observed data. In this lesson, we're going to use that to find the optimal fit. The least squares RSS is what we call a "cost function." In order to find the best beta coefficients to fit for the data, we find the minimum of the cost function. Play around with the linear fits in the interactive graph below and see if you can find the optimum beta (mouse over for a hint: you should get beta = ...).
+            </p>
+            <canvas id='linearRegressionGraph' width='500' height='300'></canvas>
+            <canvas id="costFunctionGraph" width='500' height='300'></canvas>
+            <h1 id='totalRSS'>0</h1>
+            <h2 id='minRSS'></h2>
+            Show RSS?<input type="checkbox" id='showRSS' value="showRSS">
+
+            <p>
+                As you can see, the shape of the cost function is a parabola. This guarantees there is a minimum at the tip of the parabola which is the minimum value of &beta;.
+            </p>
+        </div>
+    </div>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <script type="text/javascript" src="js/costFunctionContrller.js"></script>
+    <script type="text/javascript" src="js/graph.js"></script>
+    <script type="text/javascript" src="js/linearRegressionModel.js"></script>
+    <script type="text/javascript" src='js/controller-lesson-1.3.js'></script>
+</body>
+</html>

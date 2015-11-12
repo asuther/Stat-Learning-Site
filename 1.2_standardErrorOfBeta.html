@@ -39,7 +39,22 @@
                 where &beta; is the calculated beta coefficient from the linear regression model and SE(&beta;) is the standard error of that coefficient. The t-value is then checked in a standard t critical value table for the significance of the beta coefficient. As with standard statistical significance, if the confidence level is above 0.95 (p-value = 0.05), then the beta coefficient is considered signficant.
             </p>
             <p>
-
+                The question is now, how does one calculate the standard error of beta? This is normally defined at the stanard deviation divided by the square root the sample size.
+                <table style="margin-top:0.5em; margin-bottom:0.5em; text-align: center;" align="center" cellpadding="0" cellspacing="0" >
+                    <tr>
+                        <td rowspan="2" nowrap="nowrap" align="right">
+                            <i>SE</i> = &nbsp;
+                        </td>
+                        <td style="" nowrap="nowrap">
+                            &nbsp;<i><span id='totalRSS'>&sigma;</span></i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border-top:solid 1px black; padding-top: 3px;" align="center">
+                            <span style="font-size:105%; margin-top: 2px;">&radic;</span><span style='border-top:solid 1px black; margin-top:2px;'>n</span>
+                        </td>
+                    </tr>
+                </table>
             </p>
             <canvas id='linearRegressionGraph' width='500' height='300'></canvas>
             Show RSS?<input type="checkbox" id='showRSS' value="showRSS">

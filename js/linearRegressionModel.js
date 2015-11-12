@@ -208,7 +208,7 @@ function LinearRegressionModel() {
 
             observers.forEach(function(observer) {
                 console.log(RSS)
-                observer.addPoint(lineStats.m*100, RSS/500);
+                observer.addPoint(lineStats.m*200, RSS/50);
             });
             //console.log('Reference X: ' + (referencePointsX[closestReferencePoint]));
         }
