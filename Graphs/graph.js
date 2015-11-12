@@ -30,13 +30,11 @@ function graph(canvasID, ctrl) {
     };
 
     this.update = function() {
-        console.log(pointsY);
 
         context.fillStyle = 'white';
         context.fillRect(0,0,500,300);
         this.drawAxes();
-        this.drawPoints(pointsX, pointsY);
-
+        this.drawPoints(this.pointsX, this.pointsY);
 
         for(var observerIndex = 0; observerIndex < observers.length; observerIndex++) {
             observers[observerIndex].update(context);
@@ -68,8 +66,9 @@ function graph(canvasID, ctrl) {
     };
 
     this.addPoint = function(pointX, pointY) {
-        pointsX.push(pointX);
-        pointsY.push(pointY);
+        console.log(this.pointsX);
+        this.pointsX.push(pointX);
+        this.pointsY.push(pointY);
 
         this.update();
     };
@@ -94,11 +93,16 @@ function graph(canvasID, ctrl) {
         }
         context.fillStyle = 'black';
         for (var index = 0; index < pointsX.length ; index++ ) {
-            context.fillRect(pointsX[index] + leftOffset, graphHeight - pointsY[index], pointSize, pointSize);
+            // - (0.5*pointSize) is to make the center of the rectangle at the point's actual position
+            context.fillRect(pointsX[index] + leftOffset - (0.5*pointSize), graphHeight - pointsY[index] - (0.5*pointSize), pointSize, pointSize);
         }
 
     };
-
+    this.drawHighLightPoint = function(pointX, pointY) {
+        pointSize = pointSizeDefault * 1.5;
+        context.fillStyle = 'red';
+        context.fillRect(pointX + leftOffset, graphHeight - pointY, pointSize, pointSize);
+    };
 
     this.mousedown = function(e) {
         //console.log('keydown');

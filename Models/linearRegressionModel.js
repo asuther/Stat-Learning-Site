@@ -8,6 +8,7 @@ function LinearRegressionModel() {
         m: 0,
         b: 0
     };
+    var lineStatic = false;
     var RSS = 99999;
 
     var closestReferencePoint = 0;
@@ -21,8 +22,10 @@ function LinearRegressionModel() {
 
     var observers = [];
 
+
+
     this.init = function() {
-        this.setReferencePoints([20,100],[30,50]);
+        this.setReferencePoints([0,200],[100,150]);
     };
     this.setGraphParams = function(graphParams) {
         this.graphParams = graphParams;
@@ -55,7 +58,8 @@ function LinearRegressionModel() {
 
     this.update = function(context) {
         this.drawLine(context, this.referencePointsX, this.referencePointsY, true);
-        this.drawReferencePoints(context, this.referencePointsX, this.referencePointsY);
+        if(!lineStatic)
+            this.drawReferencePoints(context, this.referencePointsX, this.referencePointsY);
 
         RSS = this.calculateRSS();
 
@@ -199,8 +203,8 @@ function LinearRegressionModel() {
 
     this.mousemove = function(e) {
 
-        if(isMouseDown){
-
+        if(isMouseDown && !lineStatic){
+            console.log('hey');
             $('body').css('cursor','none');
             //  console.log(e.offsetX + ", " + e.offsetY);
             that.referencePointsX[closestReferencePoint] = (e.offsetX - this.graphParams.leftOffset);
@@ -209,6 +213,7 @@ function LinearRegressionModel() {
             observers.forEach(function(observer) {
                 console.log(RSS)
                 observer.addPoint(lineStats.m*200, RSS/50);
+                observer.drawHighLightPoint(lineStats.m*200, RSS/50);
             });
             //console.log('Reference X: ' + (referencePointsX[closestReferencePoint]));
         }
