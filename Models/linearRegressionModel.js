@@ -22,6 +22,8 @@ function LinearRegressionModel() {
 
     var observers = [];
 
+    var xVariance;
+
 
 
     this.init = function() {
@@ -162,9 +164,23 @@ function LinearRegressionModel() {
 
     };
     this.calculateSEBeta = function() {
-        return Math.sqrt(currentRSS / (13 * beta)).toFixed(1);
+        var meanX = this.calculateMeanX();
+        xVariance = 0;
+        for (var index = 0 ; index < this.pointsX.length ; index++ ) {
+            xVariance+=Math.pow((this.pointsX[index] - meanX), 2)
+        }
+        return Math.sqrt(currentRSS / (13 * xVariance)).toFixed(1);
 
     };
+
+    this.calculateMeanX = function() {
+        var totalX = 0;
+        for (var index = 0 ; index < this.pointsX.length ; index++ ) {
+            totalX+=this.pointsX[index];
+        }
+
+        return totalX / this.pointsX.length;
+    }
 
     this.getClosestReferencePoint = function(pageClickedX, pageClickedY, referencePointsX, referencePointsY) {
 

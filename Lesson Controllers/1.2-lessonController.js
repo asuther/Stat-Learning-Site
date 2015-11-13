@@ -49,3 +49,9 @@ graphCanvas.mousedown(function(e) {
     }
 
 });
+
+$('#calculatePValue').click(function() {
+    $.post( "PythonAjax/calculatePValue.cgi", {SEBeta: linearRegressionModel.calculateSEBeta(), beta: linearRegressionModel.calculateBeta()}, function( data ) {
+        console.log(data);
+    });
+});
