@@ -53,3 +53,17 @@ graphCanvas.mousedown(function(e) {
     }
 
 });
+
+$('#nextButton').hide();
+$('#submitButton').click(function(e) {
+
+    /* var currentBeta =
+
+    if(Math.abs(currentBeta  - actualBeta) < 0.2 ) {
+        $('#submitText').text('Great!')
+        $('#nextButton').show();
+    } else {
+        $('#submitText').text('That is not close to the optimum beta value')
+    }
+    */
+});
