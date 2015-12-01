@@ -1,0 +1,43 @@
+<html>
+<head>
+    <title>Interactive Statistics Learning</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <style type="text/css">
+        body {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id='container'>
+        <div id='header'>
+            <div style='float:left;'><a href='index.html'>Home</a></div>
+            <h1>Linear Regression Cost Function</h1>
+        </div>
+        <div id='content'>
+            <p>
+                As we learned in the previous lesson, the residual sum of squares (RSS) is a good metric to see how close the linear regression fit is to the observed data. In this lesson, we're going to use that to find the optimal fit. This means we need to find the beta coefficients that can "fit" the measured data the best.
+            </p>
+            <p>
+                One way to do this is by minimizing the RSS. The least squares RSS is call a "cost function" in machine learning terms. In order to find the best beta coefficients to fit for the data in this case, we find the minimum of the cost function (lowest sum of squares). Play around with the linear fits in the interactive graph below and see if you can find the optimum beta (mouse over for a hint: you should get beta = ...).
+            </p>
+            <canvas id='linearRegressionGraph' width='500' height='300'></canvas>
+            <canvas id="costFunctionGraph" width='500' height='300'></canvas>
+            <h1 id='totalRSS'>0</h1>
+            <h2 id='minRSS'></h2>
+            Show RSS?<input type="checkbox" id='showRSS' value="showRSS">
+
+            <p>
+                As you can see, the shape of the cost function is a parabola. This guarantees there is a minimum at the tip of the parabola which is the minimum value of &beta;. When you have found the optimum value of beta, click submit to continue to the next section.
+            </p>
+            <button id="submitButton" value=''>Submit</button>
+            <h2 id='submitText'></h2><a href='#'><button id='nextButton'>Next Lesson</button></a>
+        </div>
+    </div>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <script type="text/javascript" src="Graphs/graph.js"></script>
+    <script type="text/javascript" src="Models/linearRegressionModel.js"></script>
+    <script type="text/javascript" src='Lesson Controllers/1.3-lessonController.js'></script>
+</body>
+</html>

@@ -8,6 +8,7 @@ function LinearRegressionModel() {
         m: 0,
         b: 0
     };
+    var lineStatic = false;
     var RSS = 99999;
 
     var closestReferencePoint = 0;
@@ -19,8 +20,14 @@ function LinearRegressionModel() {
     var pointsX;
     var pointsY;
 
+    var observers = [];
+
+    this.xVariance = 0;
+
+
+
     this.init = function() {
-        this.setReferencePoints([20,100],[30,50]);
+        this.setReferencePoints([0,200],[100,150]);
     };
     this.setGraphParams = function(graphParams) {
         this.graphParams = graphParams;
@@ -35,18 +42,34 @@ function LinearRegressionModel() {
 
     };
 
+    this.addObserver = function(newObserver) {
+        observers.push(newObserver);
+    };
+
     /*********************************************************************
-                    Drawing / Update Methods
-                    */
+
+                    ###        ###            #        #           #
+                    #   #      #   #         # #       #           #
+                    #    #     #    #       #   #       #         #
+                    #    #     #  #        #######       #   #   #
+                    #   #      #   #      #       #       # # # #
+                    ###        #    #    #         #       #   #
+
+    *********************************************************************/
+
+
     this.update = function(context) {
         this.drawLine(context, this.referencePointsX, this.referencePointsY, true);
-        this.drawReferencePoints(context, this.referencePointsX, this.referencePointsY);
+        if(!lineStatic)
+            this.drawReferencePoints(context, this.referencePointsX, this.referencePointsY);
 
         RSS = this.calculateRSS();
 
         if($('#showRSS').is(':checked')) {
             this.drawRSS(context);
         }
+
+
     };
 
     this.drawReferencePoints = function(context, pointsX, pointsY) {
@@ -141,9 +164,24 @@ function LinearRegressionModel() {
 
     };
     this.calculateSEBeta = function() {
-        return Math.sqrt(currentRSS / (13 * beta)).toFixed(1);
+        var meanX = this.calculateMeanX();
+        var currentRSS = this.calculateRSS();
+        this.xVariance = 0;
+        for (var index = 0 ; index < this.pointsX.length ; index++ ) {
+            this.xVariance+=Math.pow((this.pointsX[index] - meanX), 2)
+        }
+        return Math.sqrt(currentRSS / (13 * this.xVariance)).toFixed(2);
 
     };
+
+    this.calculateMeanX = function() {
+        var totalX = 0;
+        for (var index = 0 ; index < this.pointsX.length ; index++ ) {
+            totalX+=this.pointsX[index];
+        }
+
+        return totalX / this.pointsX.length;
+    }
 
     this.getClosestReferencePoint = function(pageClickedX, pageClickedY, referencePointsX, referencePointsY) {
 
@@ -182,13 +220,17 @@ function LinearRegressionModel() {
 
     this.mousemove = function(e) {
 
-        if(isMouseDown){
-
+        if(isMouseDown && !lineStatic){
             $('body').css('cursor','none');
             //  console.log(e.offsetX + ", " + e.offsetY);
             that.referencePointsX[closestReferencePoint] = (e.offsetX - this.graphParams.leftOffset);
             that.referencePointsY[closestReferencePoint] = this.graphParams.graphHeight - e.offsetY;
 
+            observers.forEach(function(observer) {
+                console.log(RSS)
+                observer.addPoint(lineStats.m*200, RSS/50);
+                observer.drawHighLightPoint(lineStats.m*200, RSS/50);
+            });
             //console.log('Reference X: ' + (referencePointsX[closestReferencePoint]));
         }
 

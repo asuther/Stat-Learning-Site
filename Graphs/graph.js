@@ -1,4 +1,6 @@
-function graph(canvasID) {
+function graph(canvasID, ctrl) {
+    var controller = ctrl || {update: function() {}};
+
     var graphParams = {
         leftOffset: 50,
         graphHeight: 300,
@@ -19,7 +21,8 @@ function graph(canvasID) {
     var that = this;
 
 
-    var dependencies = [];
+    var observers = [];
+
 
 
     this.init = function() {
@@ -33,16 +36,16 @@ function graph(canvasID) {
         this.drawAxes();
         this.drawPoints(this.pointsX, this.pointsY);
 
-        for(var depIndex = 0; depIndex < dependencies.length; depIndex++) {
-            dependencies[depIndex].update(context);
+        for(var observerIndex = 0; observerIndex < observers.length; observerIndex++) {
+            observers[observerIndex].update(context);
         }
 
 
     };
 
-    this.addDependency = function(dependencyObject) {
-        dependencyObject.setGraphParams(graphParams);
-        dependencies.push(dependencyObject);
+    this.addObserver = function(observerObject) {
+        observerObject.setGraphParams(graphParams);
+        observers.push(observerObject);
     };
 
     this.drawAxes = function() {
@@ -61,6 +64,14 @@ function graph(canvasID) {
         context.fillText('Target Variable',-200,38);
         context.restore();
     };
+
+    this.addPoint = function(pointX, pointY) {
+        console.log(this.pointsX);
+        this.pointsX.push(pointX);
+        this.pointsY.push(pointY);
+
+        this.update();
+    };
     this.setPoints = function(pointsX, pointsY) {
         if(pointsX.length != pointsY.length) {
             return;
@@ -69,8 +80,8 @@ function graph(canvasID) {
         this.pointsX = pointsX;
         this.pointsY = pointsY;
 
-        //Broadcast the points to all dependencies
-        dependencies.forEach(function(dependency) {
+        //Broadcast the points to all observers
+        observers.forEach(function(dependency) {
             dependency.setPoints(pointsX, pointsY);
         });
     };
@@ -82,17 +93,22 @@ function graph(canvasID) {
         }
         context.fillStyle = 'black';
         for (var index = 0; index < pointsX.length ; index++ ) {
-            context.fillRect(pointsX[index] + leftOffset, graphHeight - pointsY[index], pointSize, pointSize);
+            // - (0.5*pointSize) is to make the center of the rectangle at the point's actual position
+            context.fillRect(pointsX[index] + leftOffset - (0.5*pointSize), graphHeight - pointsY[index] - (0.5*pointSize), pointSize, pointSize);
         }
 
     };
-
+    this.drawHighLightPoint = function(pointX, pointY) {
+        pointSize = pointSizeDefault * 1.5;
+        context.fillStyle = 'red';
+        context.fillRect(pointX + leftOffset, graphHeight - pointY, pointSize, pointSize);
+    };
 
     this.mousedown = function(e) {
         //console.log('keydown');
         isMouseDown = true;
         //calculated distance from
-        dependencies.forEach(function(dependency) {
+        observers.forEach(function(dependency) {
             dependency.mousedown(e);
             dependency.update(context);
         });
@@ -103,7 +119,7 @@ function graph(canvasID) {
         isMouseDown = false;
         that.update();
 
-        dependencies.forEach(function(dependency) {
+        observers.forEach(function(dependency) {
             dependency.mouseup(e);
             dependency.update(context);
         });
@@ -112,7 +128,7 @@ function graph(canvasID) {
     this.mousemove = function(e) {
         that.update();
 
-        dependencies.forEach(function(dependency) {
+        observers.forEach(function(dependency) {
             dependency.mousemove(e);
             dependency.update(context);
         });
@@ -120,7 +136,7 @@ function graph(canvasID) {
     this.mousemoveNoClick = function(e) {
 
         that.update();
-        dependencies.forEach(function(dependency) {
+        observers.forEach(function(dependency) {
             dependency.mousemoveNoClick(e);
             dependency.update(context);
         });
