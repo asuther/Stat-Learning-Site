@@ -22,7 +22,7 @@ function LinearRegressionModel() {
 
     var observers = [];
 
-    var xVariance;
+    this.xVariance = 0;
 
 
 
@@ -165,11 +165,12 @@ function LinearRegressionModel() {
     };
     this.calculateSEBeta = function() {
         var meanX = this.calculateMeanX();
-        xVariance = 0;
+        var currentRSS = this.calculateRSS();
+        this.xVariance = 0;
         for (var index = 0 ; index < this.pointsX.length ; index++ ) {
-            xVariance+=Math.pow((this.pointsX[index] - meanX), 2)
+            this.xVariance+=Math.pow((this.pointsX[index] - meanX), 2)
         }
-        return Math.sqrt(currentRSS / (13 * xVariance)).toFixed(1);
+        return Math.sqrt(currentRSS / (13 * this.xVariance)).toFixed(2);
 
     };
 
@@ -220,7 +221,6 @@ function LinearRegressionModel() {
     this.mousemove = function(e) {
 
         if(isMouseDown && !lineStatic){
-            console.log('hey');
             $('body').css('cursor','none');
             //  console.log(e.offsetX + ", " + e.offsetY);
             that.referencePointsX[closestReferencePoint] = (e.offsetX - this.graphParams.leftOffset);

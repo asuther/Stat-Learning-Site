@@ -13,7 +13,7 @@ arguments = cgi.FieldStorage()
 for i in arguments.keys():
     #print i
     param_dict[str(i)] = float(arguments[i].value)
-print param_dict
+#print param_dict
 
 #SEBeta = float(arguments[0].value)
 

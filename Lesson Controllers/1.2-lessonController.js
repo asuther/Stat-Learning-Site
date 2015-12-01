@@ -42,7 +42,7 @@ graphCanvas.mousedown(function(e) {
         g.mousemove(e);
         updateRSS();
         beta = linearRegressionModel.calculateBeta();
-        $('#betaValue').text(beta.toFixed(2));
+        $('#xVariance').text(linearRegressionModel.xVariance.toFixed(2));
         $('#SEValue').text(linearRegressionModel.calculateSEBeta());
     } else {
         g.mousemoveNoClick(e);
@@ -51,7 +51,12 @@ graphCanvas.mousedown(function(e) {
 });
 
 $('#calculatePValue').click(function() {
-    $.post( "PythonAjax/calculatePValue.cgi", {SEBeta: linearRegressionModel.calculateSEBeta(), beta: linearRegressionModel.calculateBeta()}, function( data ) {
-        console.log(data);
+    $.post( "PythonAjax/calculatePValue.cgi", {SEBeta: linearRegressionModel.calculateSEBeta(), beta: linearRegressionModel.calculateBeta()}, function( pValue ) {
+        console.log(pValue);
+        console.log(pValue.length);
+        if( pValue.length <= 1) {
+            pValue = 0;
+        }
+        $('#pValue').text(pValue);
     });
 });
