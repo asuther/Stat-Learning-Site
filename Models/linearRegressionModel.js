@@ -19,6 +19,8 @@ function LinearRegressionModel() {
 
     var pointsX;
     var pointsY;
+    var originalPointsX;
+    var originalPointsY;
 
     var observers = [];
 
@@ -246,6 +248,22 @@ function LinearRegressionModel() {
     this.setPoints = function(pointsX, pointsY) {
         this.pointsX = pointsX;
         this.pointsY = pointsY;
+
+        this.originalPointsX = pointsX.slice();
+        this.originalPointsY = pointsY.slice();
+    };
+
+    this.addVarianceToPoints = function(varianceValue) {
+        var varianceValue = parseFloat(varianceValue);
+        for (var point_index = 0; point_index < this.pointsY.length; point_index++ ) {
+            if ( point_index % 2 == 0 ){
+                multiplier = 1;
+            } else {
+                multiplier = -1;
+            }
+            this.pointsY[point_index] = parseFloat(this.originalPointsY[point_index] + ( multiplier * varianceValue) );
+        }
+        console.log(this.pointsY);
     };
 
     this.init();

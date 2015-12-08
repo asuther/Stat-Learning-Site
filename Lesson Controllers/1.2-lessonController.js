@@ -63,3 +63,12 @@ $('#calculatePValue').click(function() {
         $('#pValue').text(pValue);
     });
 });
+
+
+//Slider
+$('#varianceSlider').on('input', function() {
+    console.log('hey');
+    $('#varianceSliderValue').text(this.value);
+    linearRegressionModel.addVarianceToPoints(this.value);
+    g.update();
+});
