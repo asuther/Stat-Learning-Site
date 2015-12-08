@@ -43,7 +43,10 @@ graphCanvas.mousedown(function(e) {
         updateRSS();
         beta = linearRegressionModel.calculateBeta();
         $('#xVariance').text(linearRegressionModel.xVariance.toFixed(2));
-        $('#SEValue').text(linearRegressionModel.calculateSEBeta());
+        $('.SEValue').text(linearRegressionModel.calculateSEBeta());
+        $('#betaValue').text(linearRegressionModel.calculateBeta().toFixed(2));
+        betaVal = $('#betaValue');
+        $('#tValue').text((parseFloat($('#betaValue')[0].innerHTML) / parseFloat($('.SEValue')[0].innerHTML)).toFixed(2));
     } else {
         g.mousemoveNoClick(e);
     }

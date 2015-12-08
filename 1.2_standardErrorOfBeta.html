@@ -63,7 +63,7 @@
             <table style="margin-top:0.5em; margin-bottom:0.5em; text-align: center;" align="center" cellpadding="0" cellspacing="0" >
                 <tr>
                     <td rowspan="2" nowrap="nowrap" align="right">
-                        <i>SE(&beta;)</i> = <span id='SEValue'>0</span> = <span style="font-size: 250%;">&radic;</span>
+                        <i>SE(&beta;)</i> = <span class='SEValue'>0</span> = <span style="font-size: 250%;">&radic;</span>
                     </td>
                     <td style="border-top:solid 1px black;" nowrap="nowrap">
                         &nbsp;<i><span id='totalRSS'>MSE</span></i>
@@ -72,6 +72,23 @@
                 <tr>
                     <td style="border-top:solid 1px black; padding: 0px;" align="center">
                         <i>(n - 2)</i><span id='xVariance'>&sum;(<i>x<sub>i</sub></i> - <i>x&#772;</i>)<sup>2</sup></span>
+                    </td>
+                </tr>
+            </table>
+            <br/>
+            This standard error can be plugged into equation 1.2-1 from above to calculate the t value:
+            <table style="margin-top:0.5em; margin-bottom:0.5em; text-align: center;" align="center" cellpadding="0" cellspacing="0" >
+                <tr>
+                    <td rowspan="2" nowrap="nowrap" align="right">
+                        <i>t-value</i> = &nbsp;<span id='tValue'>0</span> = &nbsp;
+                    </td>
+                    <td style="" nowrap="nowrap">
+                        &nbsp;<span id='betaValue'>&beta;</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border-top:solid 1px black; padding: 0px;" align="center">
+                        <span class='SEValue'><i>SE</i>(&beta;)</span>
                     </td>
                 </tr>
             </table>
