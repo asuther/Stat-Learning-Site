@@ -130,7 +130,6 @@ function graph(canvasID, ctrl) {
 
         observers.forEach(function(dependency) {
             dependency.mousemove(e);
-            dependency.update(context);
         });
     };
     this.mousemoveNoClick = function(e) {

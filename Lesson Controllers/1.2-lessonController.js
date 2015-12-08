@@ -2,8 +2,8 @@ var g = new graph('linearRegressionGraph');
 var linearRegressionModel = new LinearRegressionModel();
 g.addObserver(linearRegressionModel);
 
-var pointsX = [20, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220, 240, 260, 280, 300];
-var pointsY = [105, 110, 115, 120, 125, 130, 135, 140, 145, 150, 155, 160, 165, 170, 175];
+var pointsX = [20, 60, 100, 140, 180, 220, 260, 300];
+var pointsY = [105, 115, 125, 135, 145, 155, 165, 175];
 var currentRSS;
 var beta;
 
