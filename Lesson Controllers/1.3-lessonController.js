@@ -4,6 +4,8 @@ var costFunctionGraph = new graph('costFunctionGraph');
 
 scatterPlot.addObserver(linearRegressionModel);
 linearRegressionModel.addObserver(costFunctionGraph);
+linearRegressionModel.setReferencePoints([80,200],[10,50]);
+linearRegressionModel.disableReferencePoints(true, false);
 
 var pointsX = [100, 200,250,50, 60, 120];
 var pointsY = [100, 170, 200,80,70, 120];

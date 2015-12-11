@@ -45,8 +45,13 @@ function LinearRegressionModel() {
         this.referencePointsY = referencePointsY;
 
     };
-    this.disableReferencePoints = function() {
-        this.staticLine = true;
+    this.disableReferencePoints = function(disableFirst, disableSecond) {
+        if (disableFirst && disableSecond)
+            this.staticLine = true;
+        if (disableFirst && !disableSecond) {
+            this.referencePointsX[0] *= -1;
+            this.referencePointsY[0] *= -1;
+        }
     }
 
     this.addObserver = function(newObserver) {

@@ -8,7 +8,7 @@ var currentRSS;
 var beta;
 
 g.setPoints(pointsX, pointsY);
-linearRegressionModel.disableReferencePoints();
+linearRegressionModel.disableReferencePoints(true, true);
 g.update();
 
 
