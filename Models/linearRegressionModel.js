@@ -2,13 +2,15 @@ function LinearRegressionModel() {
 
     var referencePointsX = [];
     var referencePointsY = [];
+    var staticLine = false;
+
     var graphParams = {};
 
     var lineStats = {
         m: 0,
         b: 0
     };
-    var lineStatic = false;
+
     var RSS = 99999;
 
     var closestReferencePoint = 0;
@@ -43,6 +45,9 @@ function LinearRegressionModel() {
         this.referencePointsY = referencePointsY;
 
     };
+    this.disableReferencePoints = function() {
+        this.staticLine = true;
+    }
 
     this.addObserver = function(newObserver) {
         observers.push(newObserver);
@@ -62,7 +67,7 @@ function LinearRegressionModel() {
 
     this.update = function(context) {
         this.drawLine(context, this.referencePointsX, this.referencePointsY, true);
-        if(!lineStatic)
+        if(!this.staticLine)
             this.drawReferencePoints(context, this.referencePointsX, this.referencePointsY);
 
         RSS = this.calculateRSS();
@@ -222,14 +227,13 @@ function LinearRegressionModel() {
 
     this.mousemove = function(e) {
 
-        if(isMouseDown && !lineStatic){
+        if(isMouseDown && !this.staticLine){
             $('body').css('cursor','none');
-            //  console.log(e.offsetX + ", " + e.offsetY);
+            //console.log(e.offsetX + ", " + e.offsetY);
             that.referencePointsX[closestReferencePoint] = (e.offsetX - this.graphParams.leftOffset);
             that.referencePointsY[closestReferencePoint] = this.graphParams.graphHeight - e.offsetY;
 
             observers.forEach(function(observer) {
-                console.log(RSS)
                 observer.addPoint(lineStats.m*200, RSS/50);
                 observer.drawHighLightPoint(lineStats.m*200, RSS/50);
             });
@@ -263,7 +267,6 @@ function LinearRegressionModel() {
             }
             this.pointsY[point_index] = parseFloat(this.originalPointsY[point_index] + ( multiplier * varianceValue) );
         }
-        console.log(this.pointsY);
     };
 
     this.init();

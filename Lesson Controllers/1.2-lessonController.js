@@ -8,6 +8,7 @@ var currentRSS;
 var beta;
 
 g.setPoints(pointsX, pointsY);
+linearRegressionModel.disableReferencePoints();
 g.update();
 
 
@@ -40,13 +41,7 @@ graphCanvas.mousedown(function(e) {
 .mousemove(function(e) {
     if(mouseDown) {
         g.mousemove(e);
-        updateRSS();
-        beta = linearRegressionModel.calculateBeta();
-        $('#xVariance').text(linearRegressionModel.xVariance.toFixed(2));
-        $('.SEValue').text(linearRegressionModel.calculateSEBeta());
-        $('#betaValue').text(linearRegressionModel.calculateBeta().toFixed(2));
-        betaVal = $('#betaValue');
-        $('#tValue').text((parseFloat($('#betaValue')[0].innerHTML) / parseFloat($('.SEValue')[0].innerHTML)).toFixed(2));
+
     } else {
         g.mousemoveNoClick(e);
     }
@@ -67,8 +62,14 @@ $('#calculatePValue').click(function() {
 
 //Slider
 $('#varianceSlider').on('input', function() {
-    console.log('hey');
     $('#varianceSliderValue').text(this.value);
     linearRegressionModel.addVarianceToPoints(this.value);
     g.update();
+    updateRSS();
+    beta = linearRegressionModel.calculateBeta();
+    $('#xVariance').text(linearRegressionModel.xVariance.toFixed(2));
+    $('.SEValue').text(linearRegressionModel.calculateSEBeta());
+    $('#betaValue').text(linearRegressionModel.calculateBeta().toFixed(2));
+    betaVal = $('#betaValue');
+    $('#tValue').text((parseFloat($('#betaValue')[0].innerHTML) / parseFloat($('.SEValue')[0].innerHTML)).toFixed(2));
 });
