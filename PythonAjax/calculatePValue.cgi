@@ -20,4 +20,4 @@ for i in arguments.keys():
 #beta = float(arguments[1].value)
 
 
-print stats.t.sf(abs(param_dict['beta'] / param_dict['SEBeta']), 14)*2
+print stats.t.sf(abs(param_dict['beta'] / param_dict['SEBeta']), 7)*2

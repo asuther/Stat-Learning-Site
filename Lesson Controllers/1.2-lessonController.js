@@ -3,7 +3,8 @@ var linearRegressionModel = new LinearRegressionModel();
 g.addObserver(linearRegressionModel);
 
 var pointsX = [20, 60, 100, 140, 180, 220, 260, 300];
-var pointsY = [105, 115, 125, 135, 145, 155, 165, 175];
+var pointsY = [145, 95, 165, 75, 185, 125, 195, 155];
+//var pointsY = [105, 115, 125, 135, 145, 155, 165, 175];
 var currentRSS;
 var beta;
 
@@ -50,12 +51,16 @@ graphCanvas.mousedown(function(e) {
 
 $('#calculatePValue').click(function() {
     $.post( "PythonAjax/calculatePValue.cgi", {SEBeta: linearRegressionModel.calculateSEBeta(), beta: linearRegressionModel.calculateBeta()}, function( pValue ) {
+
         console.log(pValue);
         console.log(pValue.length);
         if( pValue.length <= 1) {
             pValue = 0;
         }
-        $('#pValue').text(pValue);
+        pValue = parseFloat(pValue)
+        $('#pValue').text(pValue.toFixed(4));
+
+        checkWin(pValue);
     });
 });
 
@@ -73,3 +78,10 @@ $('#varianceSlider').on('input', function() {
     betaVal = $('#betaValue');
     $('#tValue').text((parseFloat($('#betaValue')[0].innerHTML) / parseFloat($('.SEValue')[0].innerHTML)).toFixed(2));
 });
+
+function checkWin(pValue) {
+    if (pValue < 0.001) {
+        console.log('checking win');
+        $('#nextButton').show();
+    }
+}
