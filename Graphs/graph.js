@@ -66,7 +66,6 @@ function graph(canvasID, ctrl) {
     };
 
     this.addPoint = function(pointX, pointY) {
-        console.log(this.pointsX);
         this.pointsX.push(pointX);
         this.pointsY.push(pointY);
 

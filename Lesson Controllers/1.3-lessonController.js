@@ -7,8 +7,9 @@ linearRegressionModel.addObserver(costFunctionGraph);
 linearRegressionModel.setReferencePoints([80,200],[10,50]);
 linearRegressionModel.disableReferencePoints(true, false);
 
-var pointsX = [100, 200,250,50, 60, 120];
-var pointsY = [100, 170, 200,80,70, 120];
+var pointsX = [100, 200, 250, 50, 60, 120];
+var pointsY = [100, 170, 200, 80, 70, 120];
+var actualBeta = 0.63;
 
 scatterPlot.setPoints(pointsX, pointsY);
 costFunctionGraph.setPoints([], []);
@@ -59,13 +60,13 @@ graphCanvas.mousedown(function(e) {
 $('#nextButton').hide();
 $('#submitButton').click(function(e) {
 
-    /* var currentBeta =
+    var currentBeta = linearRegressionModel.calculateBeta();
 
-    if(Math.abs(currentBeta  - actualBeta) < 0.2 ) {
+    if(Math.abs(currentBeta  - actualBeta) < 0.03 ) {
         $('#submitText').text('Great!')
         $('#nextButton').show();
     } else {
         $('#submitText').text('That is not close to the optimum beta value')
     }
-    */
+
 });
