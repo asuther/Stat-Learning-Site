@@ -1,12 +1,17 @@
-function graph(canvasID, ctrl) {
-    var controller = ctrl || {update: function() {}};
+function graph(canvasID, isLogistic) {
+    //var controller = ctrl || {update: function() {}};
 
     var graphParams = {
         leftOffset: 50,
         graphHeight: 300,
         graphWidth: 300,
-        pointsSizeDefault: 4
+        pointsSizeDefault: 4,
+        scale: 1
     };
+
+    if(isLogistic) {
+        graphParams.scale = graphParams.graphHeight;
+    }
     var leftOffset = 50;
     var graphHeight = 300;
     var graphWidth = 300;
@@ -93,7 +98,9 @@ function graph(canvasID, ctrl) {
         context.fillStyle = 'black';
         for (var index = 0; index < pointsX.length ; index++ ) {
             // - (0.5*pointSize) is to make the center of the rectangle at the point's actual position
-            context.fillRect(pointsX[index] + leftOffset - (0.5*pointSize), graphHeight - pointsY[index] - (0.5*pointSize), pointSize, pointSize);
+            var currentX = pointsX[index] + leftOffset - (0.5*pointSize);
+            var currentY = graphHeight - (pointsY[index] * graphParams.scale) - (0.5*pointSize);
+            context.fillRect(currentX, currentY, pointSize, pointSize);
         }
 
     };

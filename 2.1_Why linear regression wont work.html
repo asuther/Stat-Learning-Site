@@ -1,0 +1,42 @@
+<html>
+<head>
+    <title>Interactive Statistics Learning</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <style type="text/css">
+        body {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id='container'>
+        <div id='header'>
+            <div style='float:left;'><a href='index.html'>Home</a></div>
+            <h1>Why linear regression won't work</h1>
+        </div>
+        <div id='content'>
+            <p>
+
+            </p>
+            <p>
+
+            </p>
+            <canvas id='logisticRegressionGraph' width='500' height='300'></canvas>
+            <h1 id='totalRSS'>0</h1>
+            <h2 id='minRSS'></h2>
+            Show RSS?<input type="checkbox" id='showRSS' value="showRSS">
+
+            <p>
+
+            </p>
+            <button id="submitButton" value=''>Submit</button>
+            <h2 id='submitText'></h2><a href='#'><button id='nextButton'>Next Lesson</button></a>
+        </div>
+    </div>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <script type="text/javascript" src="Graphs/graph.js"></script>
+    <script type="text/javascript" src="Models/linearRegressionModel.js"></script>
+    <script type="text/javascript" src='Lesson Controllers/2.1-lessonController.js'></script>
+</body>
+</html>
